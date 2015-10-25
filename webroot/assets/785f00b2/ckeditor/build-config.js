@@ -20,7 +20,7 @@ var CKBUILDER_CONFIG = {
 		'dev',
 		'.gitignore',
 		'.gitattributes',
-		'README.md',
+		'README-yii.md',
 		'.mailmap'
 	],
 	plugins : {

@@ -27,13 +27,13 @@ class TbImageGallery extends CWidget
 
 	/**
 	 * @var bool enable/disable Modal Gallery event listener
-	 * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md#deinitialize-the-click-event-listener
+	 * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README-yii.md#deinitialize-the-click-event-listener
 	 */
 	public $eventListener = true;
 
 	/**
 	 * @var array htmlOptions for gallery div
-	 * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md#api
+	 * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README-yii.md#api
 	 */
 	public $htmlOptions = array();
 
