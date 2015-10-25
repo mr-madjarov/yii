@@ -8,7 +8,7 @@ $localConfig = file_exists( $localConfigFile ) ? require( $localConfigFile ) : a
 // Any writable CConsoleApplication properties can be configured here.
 return CMap::mergeArray( array(
         'basePath'   => dirname( __FILE__ ) . DIRECTORY_SEPARATOR . '..',
-        'name'       => 'Billiard Manager',
+        'name'       => 'PhoneBook',
         // preloading 'log' component
         'preload'    => array( 'log' ),
         // Auto-loading

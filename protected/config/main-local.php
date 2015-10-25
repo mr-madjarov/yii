@@ -1,6 +1,5 @@
 <?php
 error_reporting( E_ALL | E_STRICT );
-//define('DEFAULT_LANG_CATEGORY', 'bridge|');
 return array(
     'timezone'   => 'Europe/Sofia',
     'modules'    => array(
