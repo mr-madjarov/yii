@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - phone_db@localhost" uuid="0009aa1d-260f-4524-94ae-85340a0427d9">
+    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="phone_db"/>
+    <table name="tbl_auth_assignment" schema="" catalog="phone_db" type="TABLE">
+      <column name="itemname" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="userid" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="bizrule" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="data" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="itemname,userid"/>
+      <foreign-key name="fk_auth_assignment_userid_user_id" columns="userid" ref-table="tbl_user" ref-schema="" ref-catalog="phone_db" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="fk_auth_assignment_itemname_auth_item_name" columns="itemname" ref-table="tbl_auth_item" ref-schema="" ref-catalog="phone_db" ref-columns="name" update-rule="0" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="tbl_auth_item" schema="" catalog="phone_db" type="TABLE">
+      <column name="name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="type" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="description" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="bizrule" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="data" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="name"/>
+      <exported-key name="fk_auth_assignment_itemname_auth_item_name" table="tbl_auth_assignment" schema="" catalog="phone_db" columns="itemname"/>
+      <exported-key name="fk_auth_item_child_child_auth_item_name" table="tbl_auth_item_child" schema="" catalog="phone_db" columns="child"/>
+      <exported-key name="fk_auth_item_child_parent_auth_item_name" table="tbl_auth_item_child" schema="" catalog="phone_db" columns="parent"/>
+    </table>
+    <table name="tbl_auth_item_child" schema="" catalog="phone_db" type="TABLE">
+      <column name="parent" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="child" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="parent,child"/>
+      <foreign-key name="fk_auth_item_child_child_auth_item_name" columns="child" ref-table="tbl_auth_item" ref-schema="" ref-catalog="phone_db" ref-columns="name" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="fk_auth_item_child_parent_auth_item_name" columns="parent" ref-table="tbl_auth_item" ref-schema="" ref-catalog="phone_db" ref-columns="name" update-rule="0" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="tbl_book_record" schema="" catalog="phone_db" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="phone" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="email" sqlType="VARCHAR" precision="64" scale="0" nullable="true" jdbcType="12"/>
+      <column name="address" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_by_user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="category_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="field" sqlType="VARCHAR" precision="1024" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_book_record_category_id_category_id" columns="category_id" ref-table="tbl_category" ref-schema="" ref-catalog="phone_db" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="fk_book_record_created_by_user_id_user_id" columns="created_by_user_id" ref-table="tbl_user" ref-schema="" ref-catalog="phone_db" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <index name="fk_book_record_category_id_category_id" unique="false" columns="category_id"/>
+      <index name="fk_book_record_created_by_user_id_user_id" unique="false" columns="created_by_user_id"/>
+    </table>
+    <table name="tbl_category" schema="" catalog="phone_db" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <column name="parent_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="created_by_user_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_category_created_by_user_id_user_id" columns="created_by_user_id" ref-table="tbl_user" ref-schema="" ref-catalog="phone_db" ref-columns="id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="fk_category_parent_id_category_id" columns="parent_id" ref-table="tbl_category" ref-schema="" ref-catalog="phone_db" ref-columns="id" update-rule="0" delete-rule="2" deferrability="2"/>
+      <exported-key name="fk_book_record_category_id_category_id" table="tbl_book_record" schema="" catalog="phone_db" columns="category_id"/>
+      <exported-key name="fk_category_parent_id_category_id" table="tbl_category" schema="" catalog="phone_db" columns="parent_id"/>
+      <index name="fk_category_created_by_user_id_user_id" unique="false" columns="created_by_user_id"/>
+      <index name="fk_category_parent_id_category_id" unique="false" columns="parent_id"/>
+    </table>
+    <table name="tbl_migration" schema="" catalog="phone_db" type="TABLE">
+      <column name="version" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="apply_time" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="version"/>
+    </table>
+    <table name="tbl_user" schema="" catalog="phone_db" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="username" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MQ=="/>
+      <column name="phone" sqlType="VARCHAR" precision="64" scale="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="64" scale="0" nullable="true" jdbcType="12"/>
+      <column name="address" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="password_repeated" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_auth_assignment_userid_user_id" table="tbl_auth_assignment" schema="" catalog="phone_db" columns="userid"/>
+      <exported-key name="fk_book_record_created_by_user_id_user_id" table="tbl_book_record" schema="" catalog="phone_db" columns="created_by_user_id"/>
+      <exported-key name="fk_category_created_by_user_id_user_id" table="tbl_category" schema="" catalog="phone_db" columns="created_by_user_id"/>
+      <index name="username_UNIQUE" unique="true" columns="username"/>
+    </table>
+  </data-source>
+</component>
