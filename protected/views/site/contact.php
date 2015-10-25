@@ -82,6 +82,7 @@ $this->breadcrumbs = array(
 
         <?php $this->endWidget(); ?>
 
-    </div><!-- form -->
+    </div>
+    <!-- form -->
 
 <?php endif; ?>
