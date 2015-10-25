@@ -38,6 +38,7 @@ class BookRecord extends CActiveRecord
             array( 'name, phone, created_by_user_id', 'required' ),
             array( 'phone', 'numerical', 'integerOnly' => true ),
             array( 'name, email', 'length', 'max' => 64 ),
+            array( 'email', 'email' ),
             array( 'address', 'length', 'max' => 100 ),
             array( 'field', 'length','max' => 1024 ),
             array( 'created_by_user_id, category_id', 'length', 'max' => 10 ),

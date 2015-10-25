@@ -5,18 +5,18 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array( 'label' => 'List BookRecord', 'url' => array( 'index' ) ),
-    array( 'label' => 'Create BookRecord', 'url' => array( 'create' ) ),
-    array( 'label' => 'Update BookRecord', 'url' => array( 'update', 'id' => $model->id ) ),
+    array( 'label' => 'View all contacts', 'url' => array( 'index' ) ),
+    array( 'label' => 'Add new contact', 'url' => array( 'create' ) ),
+    array( 'label' => 'Update contact ', 'url' => array( 'update', 'id' => $model->id ) ),
     array(
-        'label'       => 'Delete BookRecord',
+        'label'       => 'Delete contact',
         'url'         => '#',
         'linkOptions' => array(
             'submit'  => array( 'delete', 'id' => $model->id ),
             'confirm' => 'Are you sure you want to delete this item?'
         )
     ),
-    array( 'label' => 'Manage BookRecord', 'url' => array( 'admin' ) ),
+    array( 'label' => 'Manage contacts', 'url' => array( 'admin' ) ),
 );
 ?>
 

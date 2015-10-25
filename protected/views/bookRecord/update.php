@@ -6,10 +6,10 @@ $this->breadcrumbs=array(
 );
 
 	$this->menu=array(
-	array('label'=>'List BookRecord','url'=>array('index')),
-	array('label'=>'Create BookRecord','url'=>array('create')),
-	array('label'=>'View BookRecord','url'=>array('view','id'=>$model->id)),
-	array('label'=>'Manage BookRecord','url'=>array('admin')),
+	array('label'=>'View all contacts','url'=>array('index')),
+	array('label'=>'Add new contact','url'=>array('create')),
+	array('label'=>'View contact','url'=>array('view','id'=>$model->id)),
+	array('label'=>'Manage contacts','url'=>array('admin')),
 	);
 	?>
 

@@ -27,9 +27,9 @@
                 <?php $this->widget( 'zii.widgets.CMenu', array(
                         'items'       => array(
                             array( 'label' => t('Home'), 'url' => array( '/site/index' ) ),
-                            array( 'label' => t('Add Contact'), 'url' => array( '/bookRecord/create' ) ),
+                            array( 'label' => t('Contacts'), 'url' => array( '/bookRecord/index' ) ),
                             array( 'label' => t('Manage Categories'), 'url' => array( '/category/admin' ) ),
-                            array( 'label' => t( 'About' ), 'url' => array( '/site/page', 'view' => 'about' ) ),
+                            array( 'label' => t('About' ), 'url' => array( '/site/page', 'view' => 'about' ) ),
                             array(
                                 'label'   => t('Login'),
                                 'url'     => array( '/site/login' ),

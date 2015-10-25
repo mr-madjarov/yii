@@ -54,8 +54,18 @@ class CategoryController extends Controller
      */
     public function actionView( $id )
     {
+        $userId = user()->id;
+        $categoryId = $id;
+
+        $dataProvider = new CActiveDataProvider( 'BookRecord', [
+                'criteria' => [
+                    'condition' => "created_by_user_id ='$userId' AND category_id = '$categoryId'"
+                ]
+            ]
+        );
         $this->render( 'view', array(
                 'model' => $this->loadModel( $id ),
+                'dataProvider' => $dataProvider,
             )
         );
     }
@@ -133,10 +143,10 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
-        $userID = user()->id;
+        $userId = user()->id;
         $dataProvider = new CActiveDataProvider( 'Category', [
                 'criteria' => [
-                    'condition' => "created_by_user_id ='$userID'"
+                    'condition' => "created_by_user_id ='$userId'"
                 ]
             ]
         );

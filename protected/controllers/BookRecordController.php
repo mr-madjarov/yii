@@ -28,9 +28,9 @@ class BookRecordController extends Controller
     {
         return array(
             array(
-                'allow',  // allow all users to perform 'index' and 'view' actions
+                'allow',  // allow authenticated users to perform 'index' and 'view' actions
                 'actions' => array( 'index', 'view' ),
-                'users'   => array( '*' ),
+                'users'   => array( '@' ),
             ),
             array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -123,22 +123,21 @@ class BookRecordController extends Controller
         if ( isset( $_POST[ 'BookRecord' ] ) ) {
 
 
-           if(isset ($_POST[ 'labelVal' ]) && isset( $_POST[ 'Record' ])) {
-               //Take values of title of users`s added input fields
-               $titledArray = $_POST[ 'labelVal' ];
-               //Таке values of user`s added input fields
-               $fieldArray = $_POST[ 'Record' ][ 'field' ];
-               //match the arrays in one for serializing
-               $concatArr = array_combine( $titledArray, $fieldArray );
-               //add user_id in the end of the array
-               array_push( $concatArr, $userId );
+            if ( isset ( $_POST[ 'labelVal' ] ) && isset( $_POST[ 'Record' ] ) ) {
+                //Take values of title of users`s added input fields
+                $titledArray = $_POST[ 'labelVal' ];
+                //Таке values of user`s added input fields
+                $fieldArray = $_POST[ 'Record' ][ 'field' ];
+                //match the arrays in one for serializing
+                $concatArr = array_combine( $titledArray, $fieldArray );
+                //add user_id in the end of the array
+                array_push( $concatArr, $userId );
 
-               $serial_field = CJSON::encode( $concatArr );
-               //$serial_field = base64_encode( serialize( $concatArr ) );
-               //save new fields in the model
-               $model->field = $serial_field;
-           }
-
+                $serial_field = CJSON::encode( $concatArr );
+                //$serial_field = base64_encode( serialize( $concatArr ) );
+                //save new fields in the model
+                $model->field = $serial_field;
+            }
 
 
             $model->attributes = $_POST[ 'BookRecord' ];
@@ -157,7 +156,6 @@ class BookRecordController extends Controller
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      *
-     * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete( $id )
     {
@@ -206,13 +204,14 @@ class BookRecordController extends Controller
 
         $dataProvider = new CActiveDataProvider( 'BookRecord', [
                 'criteria' => [
-                    'condition' => "created_by_user_id ='$userID'"
+                    'condition' => "created_by_user_id ='$userID'",
+
                 ]
             ]
         );
 
         $this->render( 'admin', array(
-                'model' => $model,
+                'model'        => $model,
                 'dataProvider' => $dataProvider,
             )
         );
@@ -222,7 +221,6 @@ class BookRecordController extends Controller
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      *
-     * @param integer the ID of the model to be loaded
      */
     public function loadModel( $id )
     {
@@ -248,41 +246,46 @@ class BookRecordController extends Controller
 
     /**
      *
-     * @return array
+     * @return array with tree structure
      */
-    public function getTree(){
-         $userId = user()->id;
-         //SQL query to get all data for categories
-         $arr = Yii::app(
-         )->db->createCommand( "SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId )
-             ->queryAll();
-         // dump( $arr );
-         // function that create tree as arrays if node of tree has children function put key children
-         function createTree( &$list, $parent )
-         {
-             $tree = array();
-             foreach ( $parent as $k => $l ) {
-                 if ( isset( $list[ $l[ 'id' ] ] ) ) {
-                     $l[ 'children' ] = createTree( $list, $list[ $l[ 'id' ] ] );
-                 }
-                 $tree[ ] = $l;
-             }
-             return $tree;
-         }
+    public function getTree()
+    {
+        $userId = user()->id;
+        /**
+         * SQL query to get all data for categories
+         * Admin should create default category with name "Default" and parent_id = NULL
+         * it`s used as root node in createTree( $new, $new[ '' ] );
+        */
+        $arr = Yii::app(
+        )->db->createCommand( "SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId ."
+                                OR name='Default'" )->queryAll();
+        // dump( $arr );
+        // function that create tree as arrays if node of tree has children function put key children
+        function createTree( &$list, $parent )
+        {
+            $tree = array();
+            foreach ( $parent as $k => $l ) {
+                if ( isset( $list[ $l[ 'id' ] ] ) ) {
+                    $l[ 'children' ] = createTree( $list, $list[ $l[ 'id' ] ] );
+                }
+                $tree[ ] = $l;
+            }
+            return $tree;
+        }
 
-         $new = array();
-         /*
-          * Create  $new array to be used by
-          * createTree();
-          * get all parent_id`s as key which being the ID of the item
+        $new = array();
+        /*
+         * Create  $new array to be used by
+         * createTree();
+         * get all parent_id`s as key which being the ID of the item
+        */
+        foreach ( $arr as $a ) {
+            $new[ $a[ 'parent_id' ] ][ ] = $a;
+        }
+        /**
+         * Create tree that will be rendered to the view
          */
-         foreach ( $arr as $a ) {
-             $new[ $a[ 'parent_id' ] ][ ] = $a;
-         }
-         /**
-          * Create tree that will be rendered to the view
-          */
-         $tree = createTree( $new, $new[ '' ] );
-         return $tree;
-     }
+        $tree = createTree( $new, $new[ '' ] );
+        return $tree;
+    }
 }

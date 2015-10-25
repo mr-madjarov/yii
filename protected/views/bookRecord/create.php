@@ -5,11 +5,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-array('label'=>'List BookRecord','url'=>array('index')),
-array('label'=>'Manage BookRecord','url'=>array('admin')),
+array('label'=>'View all contacts','url'=>array('index')),
+array('label'=>'Manage contacts','url'=>array('admin')),
 );
 ?>
 
-<h1>Create BookRecord</h1>
+<h1>Add new contact</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

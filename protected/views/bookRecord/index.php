@@ -4,15 +4,25 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array( 'label' => 'Create BookRecord', 'url' => array( 'create' ) ),
-    array( 'label' => 'Manage BookRecord', 'url' => array( 'admin' ) ),
+    array( 'label' => 'Add new contact', 'url' => array( 'create' ) ),
+    array( 'label' => 'Manage contacts', 'url' => array( 'admin' ) ),
 );
 ?>
 
-<h1>Book Records</h1>
+<h1>PhoneBook </h1>
 
-<?php $this->widget( 'bootstrap.widgets.TbListView', array(
-        'dataProvider' => $dataProvider,
-        'itemView'     => '_view',
+
+<?php $this->widget( 'bootstrap.widgets.TbGridView', array(
+        'type'             => 'striped hover',
+        'id'               => 'category-grid',
+        'template'         => "{items}",
+        'dataProvider'     => $dataProvider,
+        'columns'          => array(
+            'name',
+            'phone',
+            'email',
+            'address',
+            'category.name',
+        ),
     )
-); ?>
+);

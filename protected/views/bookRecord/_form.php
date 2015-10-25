@@ -1,5 +1,11 @@
-<?php /**
+<?php
+/**
  * @var $this BookRecordController
+ */
+
+
+/**
+ * JavaScript to avoid multiple checkbox selection
  */
 Yii::app()->clientScript->registerScript( 'search', "
 $('input:checkbox').on('click', function() {
@@ -19,6 +25,7 @@ $('input:checkbox').on('click', function() {
 });
 "
 );
+
 // start form widget
 $form = $this->beginWidget( 'bootstrap.widgets.TbActiveForm', array(
         'id'                   => 'book-record-form',
@@ -40,10 +47,11 @@ $userId = user()->id;?>
 <?php echo $form->textFieldRow( $model, 'address', array( 'class' => 'span5', 'maxlength' => 100 ) ); ?>
 
 <?php
-
+    echo '<br>'.t( 'Category' )  . '<br>';
     if ( $model->field != null ) {
         // data is save as JSON
         $old_data = $model->field;
+        // to avoid rewriting fields
         $cnt = 100;
         $ids = "Record_field" . $cnt;
         $new_data = json_decode( $old_data, true );
@@ -60,8 +68,12 @@ $userId = user()->id;?>
     }
 ?>
 <br>
+
 <?php
-/*        function listCategory()
+/*
+        // Use this function for category list view
+
+        function listCategory()
         {
             $userId = user()->id;
             $criteria = new CDbCriteria;
@@ -90,8 +102,11 @@ SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $use
 $tree = $this->getTree();
 selectListTree( $tree );
 
-//dump( $tree );exit;
-
+/**
+ * Render category in tree view model
+ *
+ * @param $tree array
+ */
 function selectListTree( $tree )
 {
     echo "<ul style='list-style-type:none'>";
@@ -106,12 +121,9 @@ function selectListTree( $tree )
     }
     echo "</ul>";
 }
-
-
-
 ?>
 
-&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;&emsp;&ensp;
+<br>
 <?php $this->widget( 'bootstrap.widgets.TbButton', array(
         'buttonType'  => 'button',
         'type'        => 'info',
@@ -120,8 +132,8 @@ function selectListTree( $tree )
     )
 ); ?>
 
+<!--use div to put custom fields added by user-->
 <div id="custom_field" class="custom-fields">
-
 </div>
 
 <div class="form-actions">

@@ -124,4 +124,18 @@ class Category extends CActiveRecord
     }
 
 
+    public function  cat()
+    {
+        $criteria = new CDbCriteria;
+
+
+        $criteria->compare( 'category_id', $this->category_id, true );
+        return new CActiveDataProvider( $this, array(
+                'criteria' => $criteria,
+            )
+        );
+
+    }
+
+
 }
