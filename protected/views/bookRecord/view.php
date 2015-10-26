@@ -24,36 +24,38 @@ $this->menu = array(
 
 
 <?php
-        $criteria = new CDbCriteria;
-        $criteria->condition = "id = $model->category_id";
-        $data = Category::model()->findAll( $criteria );
-        $categoryType = CHtml::listData( $data, 'id', 'name' );
+$criteria = new CDbCriteria;
+$category_name = '';
+if ( isset( $model->category_id ) ) {
+    $criteria->condition = "id = $model->category_id";
+    $data = Category::model()->findAll( $criteria );
+    $categoryType = CHtml::listData( $data, 'id', 'name' );
 
-        foreach ( $categoryType as $key => $value ) {
-            $category_name = $value;
-        }
+    foreach ( $categoryType as $key => $value ) {
+        $category_name = $value;
+    }
+}
 
+$this->widget( 'bootstrap.widgets.TbDetailView', array(
+        'data'       => $model,
+        'type'       => 'hover',
+        'attributes' => array(
+            'name',
+            'phone',
+            'email',
+            'address',
+            //'field',
+            //'created_by_user_id',
 
-        $this->widget( 'bootstrap.widgets.TbDetailView', array(
-            'data'       => $model,
-            'type'       => 'hover',
-            'attributes' => array(
-                'name',
-                'phone',
-                'email',
-                'address',
-                //'field',
-                //'created_by_user_id',
-
-                array(
-                    'name'  => 'Category',
-                    'value' => $category_name,
-                ),
-
-
+            array(
+                'name'  => 'Category',
+                'value' => $category_name,
             ),
-        )
-    );
+
+
+        ),
+    )
+);
 ?>
 <table class="detail-view table" style="background-color: #fdfdfd ">
 

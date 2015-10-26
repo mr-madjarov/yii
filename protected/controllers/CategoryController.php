@@ -64,7 +64,7 @@ class CategoryController extends Controller
             ]
         );
         $this->render( 'view', array(
-                'model' => $this->loadModel( $id ),
+                'model'        => $this->loadModel( $id ),
                 'dataProvider' => $dataProvider,
             )
         );
@@ -200,17 +200,19 @@ class CategoryController extends Controller
     }
 
     /**
-     * Lists all models as tree view
+     * Get all models as tree view and store it in array
      * use direct SQL query to get needed from model
+     *
      */
-    public function actionTree(){
+    public function actionTree()
+    {
         $userId = user()->id;
 
         //SQL query to get all data for categories
         $arr = Yii::app(
-        )->db->createCommand( "SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId )
-            ->queryAll();
-        // dump( $arr );
+        )->db->createCommand( "SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId . "
+                                OR name='Default'"
+        )->queryAll();
         // function that create tree as arrays if node of tree has children function put key children
         function createTree( &$list, $parent )
         {
@@ -240,5 +242,27 @@ class CategoryController extends Controller
 
         $this->render( 'tree', array( 'tree' => $tree ) );
 
+    }
+
+    /**
+     * Tree view for categories
+     *
+     * @param $tree array
+     */
+    function selectListTree( $tree )
+    {
+
+        echo "<ul style='list-style-type:disc'>";
+        foreach ( $tree as $key => $value ) {
+            $id = $value[ 'id' ];
+            $name = $value[ 'name' ];
+            echo "<li>";
+            echo CHtml::link( $name, array( "category/view", "id" => $id ) );
+            echo "</li>";
+            if ( isset( $value[ 'children' ] ) ) {
+                $this->selectListTree( $value[ 'children' ] );
+            }
+        }
+        echo "</ul>";
     }
 }

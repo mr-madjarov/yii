@@ -56,7 +56,6 @@ class BookRecordController extends Controller
      */
     public function actionView( $id )
     {
-
         $this->render( 'view', array(
                 'model' => $this->loadModel( $id ),
             )
@@ -197,22 +196,22 @@ class BookRecordController extends Controller
     {
         $userID = user()->id;
         $model = new BookRecord( 'search' );
-        $model->unsetAttributes();  // clear any default values
+       // $model->unsetAttributes();  // clear any default values
         if ( isset( $_GET[ 'BookRecord' ] ) ) {
             $model->attributes = $_GET[ 'BookRecord' ];
         }
 
-        $dataProvider = new CActiveDataProvider( 'BookRecord', [
+    /*    $dataProvider = new CActiveDataProvider( 'BookRecord', [
                 'criteria' => [
                     'condition' => "created_by_user_id ='$userID'",
 
                 ]
             ]
-        );
+        );*/
 
         $this->render( 'admin', array(
                 'model'        => $model,
-                'dataProvider' => $dataProvider,
+               // 'dataProvider' => $dataProvider,
             )
         );
     }
@@ -255,10 +254,11 @@ class BookRecordController extends Controller
          * SQL query to get all data for categories
          * Admin should create default category with name "Default" and parent_id = NULL
          * it`s used as root node in createTree( $new, $new[ '' ] );
-        */
+         */
         $arr = Yii::app(
-        )->db->createCommand( "SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId ."
-                                OR name='Default'" )->queryAll();
+        )->db->createCommand( "SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId . "
+                                OR name='Default'"
+        )->queryAll();
         // dump( $arr );
         // function that create tree as arrays if node of tree has children function put key children
         function createTree( &$list, $parent )
@@ -284,8 +284,40 @@ class BookRecordController extends Controller
         }
         /**
          * Create tree that will be rendered to the view
+         * Default category had parent_id NULL which is used as index in $new[ '' ]
          */
         $tree = createTree( $new, $new[ '' ] );
         return $tree;
     }
+
+    /**
+     * Render checkbox tree view
+     *
+     * @param $tree array
+     */
+    public function selectListTree( $tree )
+    {
+        $checked = "";
+        echo "<ul style='list-style-type:none'>";
+        foreach ( $tree as $key => $value ) {
+            $name = $value[ 'name' ];
+            $id = $value[ 'id' ];
+            if ( isset( $_GET[ 'id' ] ) ) {
+                $modelId = $_GET[ 'id' ];
+                $model = $this->loadModel( $modelId );
+                if ( $model->category_id == $id ) {
+                    $checked = 'checked';
+                } else {
+                    $checked = '';
+                }
+            }
+            echo "<li>" . "<input type='checkbox' value='" . $id . "' name='BookRecord[category_id]' " . $checked . "/>" . "&emsp;" . $name . "</li>";
+            if ( isset( $value[ 'children' ] ) ) {
+                $this->selectListTree( $value[ 'children' ] );
+            }
+        }
+        echo "</ul>";
+    }
+
+
 }

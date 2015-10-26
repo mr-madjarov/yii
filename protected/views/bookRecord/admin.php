@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $model BookRecord
+ * @var $dataProvider CActiveDataProvider
  */
 $this->breadcrumbs = array(
     'Book Records' => array( 'index' ),
@@ -36,7 +37,10 @@ return false;
         )
     ); ?>
 </div><!-- search-form -->
-<?php $this->widget( 'bootstrap.widgets.TbGridView', array(
+<?php
+
+
+$this->widget( 'bootstrap.widgets.TbGridView', array(
         'type'             => 'striped hover',
         'id'               => 'category-grid',
         'template'         => "{items}",
@@ -46,13 +50,13 @@ return false;
             'phone',
             'email',
             'address',
-            // 'category.name',
-            array(
+            //'category.name',
+                array(
                 'name'  => 'category.name',
                 //'header'      => 'Custom Header',
                 //'htmlOptions' => array( 'width' => '20%' ),
                 'type'  => 'raw',
-                'value' => 'CHtml::link($data->category->name, array("category/view","id"=>$data->category_id))'
+                'value' => 'CHtml::link(CHtml::encode($data[ "category" ]["name"]), array("category/view","id"=>$data->category_id))'
             ),
             array(
                 'class' => 'bootstrap.widgets.TbButtonColumn',

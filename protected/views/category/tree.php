@@ -25,41 +25,9 @@ $this->menu = array(
     array( 'label' => 'Manage Category', 'url' => array( 'admin' ) ),
 );
 
-function listTree( $tree )
-{
-    echo "<ul>";
-    foreach ( $tree as $key => $value ) {
-            $name = $value['name'];
-            echo "<li>". $name ."</li>";
-        if( isset($value[ 'children' ])){
-            listTree($value['children']);
-        }
+echo CHtml::tag( 'h2', array(), "Category tree view", "h2" );
+echo CHtml::tag( 'h5', array(), "Click on category to see  contacts", "h5" );
 
-    }
-    echo "</ul>";
-}
+$this->selectListTree($tree);
 
-selectListTree($tree);
-
-function selectListTree( $tree )
-{
-    echo "<ul style='list-style-type:none'>";
-    foreach ( $tree as $key => $value ) {
-        $name = $value[ 'name' ];
-        $id = $value[ 'id' ];
-        echo "<li>" . "<input type='checkbox' value='" . $id . "' name='BookRecord[category_id]'/>"
-                    . "&emsp;" . $name .
-             "</li>";
-        if ( isset( $value[ 'children' ] ) ) {
-            selectListTree( $value[ 'children' ] );
-        }
-
-    }
-    echo "</ul>";
-}
-
-
-
-
-?>
 

@@ -27,9 +27,18 @@
                 <?php $this->widget( 'zii.widgets.CMenu', array(
                         'items'       => array(
                             array( 'label' => t('Home'), 'url' => array( '/site/index' ) ),
-                            array( 'label' => t('Contacts'), 'url' => array( '/bookRecord/index' ) ),
-                            array( 'label' => t('Manage Categories'), 'url' => array( '/category/admin' ) ),
+                            array(
+                                'label' => t('Contacts'),
+                                'url' => array( '/bookRecord/index' ),
+                                'visible' => !Yii::app()->user->isGuest
+                            ),
+                            array(
+                                'label' => t('Categories'),
+                                'url' => array( '/category/tree' ),
+                                'visible' => !Yii::app()->user->isGuest
+                            ),
                             array( 'label' => t('About' ), 'url' => array( '/site/page', 'view' => 'about' ) ),
+                            array( 'label' => t( 'Contact us' ), 'url' => array( '/site/contact' ) ),
                             array(
                                 'label'   => t('Login'),
                                 'url'     => array( '/site/login' ),

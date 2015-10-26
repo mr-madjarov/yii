@@ -6,7 +6,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array( 'label' => 'List Category', 'url' => array( 'index' ) ),
+    array( 'label' => 'List Category', 'url' => array( 'tree' ) ),
     array( 'label' => 'Create Category', 'url' => array( 'create' ) ),
     array( 'label' => 'Update Category', 'url' => array( 'update', 'id' => $model->id ) ),
     array( 'label'       => 'Delete Category',

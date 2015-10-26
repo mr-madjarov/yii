@@ -47,25 +47,25 @@ $userId = user()->id;?>
 <?php echo $form->textFieldRow( $model, 'address', array( 'class' => 'span5', 'maxlength' => 100 ) ); ?>
 
 <?php
-    echo '<br>'.t( 'Category' )  . '<br>';
-    if ( $model->field != null ) {
-        // data is save as JSON
-        $old_data = $model->field;
-        // to avoid rewriting fields
-        $cnt = 100;
-        $ids = "Record_field" . $cnt;
-        $new_data = json_decode( $old_data, true );
-        array_pop( $new_data );
 
-        foreach ( $new_data as $key => $value ) {
-            echo "<label for='" . $ids . "'>" . $key . "</label>";
-            echo "<input type='hidden'  name='labelVal[" . $cnt . "]'" . " value='" . $key . "'  />";
-            echo "<input class='span5' type='text' name='Record[field][" . $cnt . "]'" . "maxlength='100' " . "id='Record_field" . $cnt . "' value=" . $value . " />";
+        if ( $model->field != null ) {
+            // data is save as JSON
+            $old_data = $model->field;
+            // to avoid rewriting fields
+            $cnt = 100;
+            $ids = "Record_field" . $cnt;
+            $new_data = json_decode( $old_data, true );
+            array_pop( $new_data );
 
-            $cnt++;
+            foreach ( $new_data as $key => $value ) {
+                echo "<label for='" . $ids . "'>" . $key . "</label>";
+                echo "<input type='hidden'  name='labelVal[" . $cnt . "]'" . " value='" . $key . "'  />";
+                echo "<input class='span5' type='text' name='Record[field][" . $cnt . "]'" . "maxlength='100' " . "id='Record_field" . $cnt . "' value=" . $value . " />";
+
+                $cnt++;
+            }
+
         }
-
-    }
 ?>
 <br>
 
@@ -96,31 +96,17 @@ $userId = user()->id;?>
                     )
                 );
         }
-SELECT id, parent_id, name  FROM tbl_category WHERE created_by_user_id =" . $userId
 */
 
-$tree = $this->getTree();
-selectListTree( $tree );
+        /**
+         * Render category in tree view model
+         *
+         * @param $tree array
+         */
+        echo  t( 'Category:' ) . '<br>';
+        $tree = $this->getTree();
+        $this->selectListTree( $tree );
 
-/**
- * Render category in tree view model
- *
- * @param $tree array
- */
-function selectListTree( $tree )
-{
-    echo "<ul style='list-style-type:none'>";
-    foreach ( $tree as $key => $value ) {
-        $name = $value[ 'name' ];
-        $id = $value[ 'id' ];
-        echo "<li>" . "<input type='checkbox' value='" . $id . "' name='BookRecord[category_id]'/>" . "&emsp;" . $name . "</li>";
-        if ( isset( $value[ 'children' ] ) ) {
-            selectListTree( $value[ 'children' ] );
-        }
-
-    }
-    echo "</ul>";
-}
 ?>
 
 <br>
@@ -132,7 +118,7 @@ function selectListTree( $tree )
     )
 ); ?>
 
-<!--use div to put custom fields added by user-->
+<!--div to put custom fields added by user-->
 <div id="custom_field" class="custom-fields">
 </div>
 

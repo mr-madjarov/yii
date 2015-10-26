@@ -25,6 +25,6 @@ array('label'=>'Manage User','url'=>array('admin')),
 		'phone',
 		'email',
 		'address',
-		'password_repeated',
+
 ),
 )); ?>
